@@ -22,7 +22,49 @@ const cities = [];
 fetch(endpoint)
   .then(r => r.json())
   .then(data => cities.push(...data))
-console.log(cities)
+
+function findMatches(wordToMatch, cities){ 
+  return cities.filter(place => {
+    // here we need to figure out if something matches our search
+    const regex = new RegExp(wordToMatch, 'gi')
+    // g means global and i means insensitive (not case sensitive)
+    return place.city.match(regex) || place.state.match(regex)
+  })
+}
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
+
+function displayMatches() {
+  const matchArray = findMatches(this.value, cities)
+  // we call the findMatches function with our search value passed in
+  // with our cities array. 
+  const html = matchArray.map(place => {
+    const regex = new RegExp(this.value, 'gi')
+    const cityName = place.city.replace(regex, `<span class"h1">
+      ${this.value}</span>`)
+    const stateName = place.state.replace(regex, `<span class"h1">
+      ${this.value}</span>`)
+
+    return `
+    <li>
+      <span class="name">${place.city}, ${place.state}</span>
+      <span class="pop">${numberWithCommas(place.population)}</span>
+    </li>
+    `;
+  }).join("");
+  suggestions.innerHTML=html
+}
+
+const searchInput = document.querySelector('.search')
+const suggestions = document.querySelector('.suggestions')
+
+searchInput.addEventListener('change', displayMatches)
+searchInput.addEventListener('keyup', displayMatches)
+
 </script>
 </body>
 </html>
+
+<!-- get the data then get the events-->
