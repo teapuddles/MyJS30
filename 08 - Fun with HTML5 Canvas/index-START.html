@@ -7,6 +7,58 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+  const canvas = document.querySelector('#draw')
+  // use context! for 2nd (here) and 3d(try it out)
+  const contx = canvas.getContext('2d')
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+  // stroke styles base settings
+  contx.strokeStyle = '#BADA55'
+  contx.lineJoin = 'round'
+  contx.lineCap = 'round'
+
+  let isDrawing = false;
+  // last X, Y are our startpoints/endpoints for drawing on the canvas
+  let lastX = 0
+  let lastY = 0
+  let hue = 0 
+  let direction = true; 
+
+function draw(e){
+  if(!isDrawing) return;
+  console.log(isDrawing)
+
+  contx.strokeStyle = `hsl(${hue}, 100%, 50%)`
+
+  contx.beginPath();
+  contx.moveTo(lastX, lastY)
+  contx.lineTo(e.offsetX, e.offsetY)
+  contx.stroke();
+  [lastX, lastY] = [e.offsetX, e.offsetY]
+  
+  hue++
+  if(hue >= 360){
+    hue = 0 
+  }
+    if(contx.lineWidth >= 100 || contx.lineWidth <= 1){
+    direction = !direction 
+    }
+      if(direction){
+      contx.lineWidth++
+      } else {
+      contx.lineWidth--
+   }
+} 
+
+canvas.addEventListener('mousemove', draw)
+canvas.addEventListener('mousedown', (e) => {
+  isDrawing = true;
+  [lastX, lastY] = [e.offsetX, e.offsetY]
+})
+canvas.addEventListener('mouseup', () => isDrawing = false)
+canvas.addEventListener('mouseout', () => isDrawing = false)
+
+
 </script>
 
 <style>
