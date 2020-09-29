@@ -96,6 +96,39 @@
   </div>
 
 <script>
+  // ELEMENTS
+  const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]')
+                      // we're looking at the class of inbox and all of the inputs called checkbox inside it
+  let lastChecked;
+  // whatever was most recently clicked will become "this"
+  // due to the event assigning lastChecked to "this"
+  // now we need to check if shift was held down. 
+
+  // FUNCTIONS
+  function handleClick(e) {
+    // was shift down?
+    // is the box being checked or unchecked?
+    // checked comes from our CSS. We're checking if the event was a check or uncheck with line 112
+    let checkArea = false;
+    if(e.shiftKey && this.checked){
+      checkboxes.forEach(checkbox => {
+        console.log(checkbox)
+        if(checkbox === this || checkbox === lastChecked){
+          // the above if statement handles how things are checked in whatever order
+          // if first is lower, checkbox === this, if first is higher, checkbox === lastChecked
+          checkArea = !checkArea
+          console.log("CHECKING NOW, SIR")
+        }
+        if(checkArea){
+          checkbox.checked = true;
+        }
+      })
+    }
+    lastChecked = this;
+  }
+
+  // EVENTS
+  checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleClick))
 </script>
 </body>
 </html>
