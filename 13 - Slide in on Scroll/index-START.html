@@ -43,6 +43,35 @@
   </div>
 
   <script>
+
+    // elements
+    const sliderImages = document.querySelectorAll('.slide-in'); 
+
+    // functions
+    // check slide is going to check to see if an image needs to be shown.
+    // The main idea here is that once the image is not fully shown (50% of it's height)
+    // we want it to animate in.
+    function checkSlide(e){
+      sliderImages.forEach(slideImage => {
+        // check to see where images slide in using 'window.scrollY'
+        // add the inner height of the window to determine the pixel at
+        // the bottom of the screen
+        // This is then subtracted by the height of each image. Giving us a number that represents 
+        // bottom pixel - half the height of an image. This pixel count is where we slide when it's hit. 
+        const slideInAt = (window.scrollY + window.innerHeight) -  
+        slideImage.height / 2; 
+        // We then want to find the bottom pixel of our images and do the opposite.
+        // this way when we scroll past something it will slide off the page
+
+        // offset top shows us how far from the top our image is from the top of the window.
+        const imageBottom = slideImage.offsetTop
+        
+      })
+    }
+    // this debounce function is here so our checkSlide function
+    // doesn't run too often. As of right now, it runs every time we scroll,
+    // but with the debouncer, it's going to at least wait 20ms before running again.
+    // That will cut down how often our eventListener triggers.
     function debounce(func, wait = 20, immediate = true) {
       var timeout;
       return function() {
@@ -57,6 +86,9 @@
         if (callNow) func.apply(context, args);
       };
     }
+    // event listeners
+  window.addEventListener('scroll', debounce(checkSlide))
+
 
   </script>
 
@@ -103,7 +135,11 @@
       opacity: 0;
       transition: all .5s;
     }
-
+/* slide in initalizes with an opacity of zero, 
+what we want is for when the user is at that point in the document
+to change this to our slide-in.active because here we 
+change the opacity to 1. Align-left/right activate where on the page
+images start with transform */
     .align-left.slide-in {
       transform: translateX(-30%) scale(0.95);
     }
