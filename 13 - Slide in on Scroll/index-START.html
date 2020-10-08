@@ -58,14 +58,24 @@
         // the bottom of the screen
         // This is then subtracted by the height of each image. Giving us a number that represents 
         // bottom pixel - half the height of an image. This pixel count is where we slide when it's hit. 
+        // (HALFWAY THROUGH IMAGE)
         const slideInAt = (window.scrollY + window.innerHeight) -  
         slideImage.height / 2; 
         // We then want to find the bottom pixel of our images and do the opposite.
         // this way when we scroll past something it will slide off the page
 
         // offset top shows us how far from the top our image is from the top of the window.
-        const imageBottom = slideImage.offsetTop
-        
+        // (BOTTOM OF IMAGE)
+        const imageBottom = slideImage.offsetTop + slideImage.height;
+        // slide in at value is greater than the top of where the image is
+        const isHalfShown = slideInAt > slideImage.offsetTop
+        // making sure that we're not scrolled past the image. 
+        const notScrolledPast = window.scrollY < imageBottom
+        if(isHalfShown && notScrolledPast){
+          slideImage.classList.add('active')
+        } else {  
+          slideImage.classList.remove('active')
+        }
       })
     }
     // this debounce function is here so our checkSlide function
