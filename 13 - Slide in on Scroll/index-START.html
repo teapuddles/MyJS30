@@ -82,7 +82,7 @@
     // doesn't run too often. As of right now, it runs every time we scroll,
     // but with the debouncer, it's going to at least wait 20ms before running again.
     // That will cut down how often our eventListener triggers.
-    function debounce(func, wait = 20, immediate = true) {
+    function debounce(func, wait, immediate = true) {
       var timeout;
       return function() {
         var context = this, args = arguments;
@@ -97,7 +97,7 @@
       };
     }
     // event listeners
-  window.addEventListener('scroll', debounce(checkSlide))
+  window.addEventListener('scroll', debounce(checkSlide), 20)
 
 
   </script>
