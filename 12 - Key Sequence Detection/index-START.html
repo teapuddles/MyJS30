@@ -18,6 +18,9 @@
 // events
 window.addEventListener('keyup', (e) => {
   pressed.push(e.keyCode)
+  // because ArrowUp and ArrowDown etc take up a lot of characters, 
+  // we want to use keyCode instead, that way each key is limited to 2 and our overall length
+  // of the pressed array will be smaller
   console.log(pressed)
   pressed.splice(-konamiCode.length - 1, pressed.length - konamiCode.length)
   console.log(pressed);
