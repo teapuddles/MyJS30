@@ -50,15 +50,12 @@ const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'N
 
 function strip(bandName) {
   // we use a regular expression to replace the articles we don't want in our band names
-  return bandName.replace(/^(a |the |an)/i)
+  return bandName.replace(/^(a |the |an)/i, '').trim()
 }
 
 const sortedBands = bands.sort(function (a, b){
-  if(a > b) {
-    return 1;
-  } else {
-    return -1
-  }
+ return strip(a) > strip(b) ? 1 : -1;
+ 
 })
 
 </script>
